@@ -141,6 +141,7 @@ MonoBehaviour:
   weight_lh: 0
   weight_rf: 0
   weight_lf: 0
+  wallOffset: 0
 --- !u!1 &585996504
 GameObject:
   m_ObjectHideFlags: 0
@@ -587,10 +588,10 @@ MonoBehaviour:
   rotateSpeed: 5
   inAngleDistance: 1
   baseIKsnapshot:
-    rh: {x: 0.5, y: 1.5, z: 0}
-    lh: {x: -0.5, y: 1.5, z: 0}
-    rf: {x: 0.5, y: -0.2, z: 0}
-    lf: {x: -0.5, y: -0.2, z: 0}
+    rh: {x: 0.29, y: 1.5, z: 0}
+    lh: {x: -0.32, y: 1.5, z: 0}
+    rf: {x: 0.5, y: 0.5, z: 0}
+    lf: {x: -0.5, y: 0.5, z: 0}
   aHook: {fileID: 519360626}
 --- !u!1 &1930432056
 GameObject:
