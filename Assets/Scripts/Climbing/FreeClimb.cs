@@ -19,13 +19,15 @@ namespace DynamicClimbing
         public float positionOffset;
         public float offsetFromWall = 0.3f;
         public float speedMultiplier = 0.2f;
+        public float climbSpeed = 3;
+        public float rotateSpeed = 5;
+        public float inAngleDistance = 1;
 
         Transform helper;
 
         // Use this for initialization
         void Start () {
             Init();
-            CheckForClimb();
         }
         
         // Update is called once per frame
@@ -48,6 +50,42 @@ namespace DynamicClimbing
                 GetInPosition();
                 return;
             }
+
+            if(!isLerping)
+            {
+                float hor = Input.GetAxis("Horizontal");
+                float vert = Input.GetAxis("Vertical");
+                float m = Mathf.Abs(hor) + Mathf.Abs(vert);
+
+                Vector3 h = helper.right * hor;
+                Vector3 v = helper.up * vert;
+                Vector3 moveDir = (h + v).normalized;
+
+                bool canMove = CanMove(moveDir);
+                if (!canMove || moveDir == Vector3.zero)
+                {
+                    return;
+                }
+
+                t = 0;
+                isLerping = true;
+                startPos = transform.position;
+                //Vector3 tp = helper.position - transform.position;
+                targetPos = helper.position;
+            }
+            else
+            {
+                t += delta * climbSpeed;
+                if(t > 1)
+                {
+                    t = 1;
+                    isLerping = false;
+                }
+
+                Vector3 cp = Vector3.Lerp(startPos, targetPos, t);
+                transform.position = cp;
+                transform.rotation = Quaternion.Slerp(transform.rotation, helper.rotation, delta * rotateSpeed);
+            }
         }
 
         public void CheckForClimb()
@@ -58,6 +96,7 @@ namespace DynamicClimbing
             RaycastHit hit;
             if(Physics.Raycast(origin, dir, out hit, 5))
             {
+                helper.position = PosWithOffset(origin, hit.point);
                 InitForClimb(hit);
             }
         }
@@ -73,6 +112,49 @@ namespace DynamicClimbing
             anim.CrossFade("Hanging Idle", 2);
         }
 
+        bool CanMove(Vector3 moveDir)
+        {
+            Vector3 origin = transform.position;
+            float dis = positionOffset;
+            Vector3 dir = moveDir;
+            Debug.DrawRay(origin, dir * dis);
+            RaycastHit hit;
+
+            if(Physics.Raycast(origin, dir, out hit, dis))
+            {
+                return false;
+            }
+
+            origin += moveDir * dis;
+            dir = helper.forward;
+
+            float dis2 = inAngleDistance;
+
+            Debug.DrawRay(origin, dir * dis2);
+            if(Physics.Raycast(origin, dir, out hit, dis))
+            {
+                helper.position = PosWithOffset(origin, hit.point);
+                helper.rotation = Quaternion.LookRotation(-hit.normal);
+                return true;
+            }
+
+            origin += dir * dis2;
+            dir = -Vector3.up;
+
+            Debug.DrawRay(origin, dir);
+            if(Physics.Raycast(origin, dir, out hit, dis2))
+            {
+                float angle = Vector3.Angle(helper.up, hit.normal);
+                if(angle < 40)
+                {
+                    helper.position = PosWithOffset(origin, hit.point);
+                    helper.rotation = Quaternion.LookRotation(-hit.normal);
+                    return true;
+                }
+            }
+
+            return false;
+        }
         void GetInPosition()
         {
             t += delta;
@@ -87,6 +169,7 @@ namespace DynamicClimbing
 
             Vector3 tp = Vector3.Lerp(startPos, targetPos, t);
             transform.position = tp;
+            transform.rotation = Quaternion.Slerp(transform.rotation, helper.rotation, delta * rotateSpeed);
         }
 
         Vector3 PosWithOffset(Vector3 origin, Vector3 target)
