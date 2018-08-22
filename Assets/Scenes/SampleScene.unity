@@ -113,6 +113,10 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &519360623 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100004, guid: 32368d777a641a24785e2faccca95dfd, type: 3}
+  m_PrefabInternal: {fileID: 1122133875}
 --- !u!95 &519360624 stripped
 Animator:
   m_PrefabParentObject: {fileID: 9500000, guid: 32368d777a641a24785e2faccca95dfd,
@@ -122,6 +126,21 @@ Animator:
 Transform:
   m_PrefabParentObject: {fileID: 400004, guid: 32368d777a641a24785e2faccca95dfd, type: 3}
   m_PrefabInternal: {fileID: 1122133875}
+--- !u!114 &519360626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 519360623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 919aed9c111fd5444b0a1835b5a84ae0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weight_rh: 0
+  weight_lh: 0
+  weight_rf: 0
+  weight_lf: 0
 --- !u!1 &585996504
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,6 +354,17 @@ Prefab:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e90c7a0f18d507e479dc56a5e3841351, type: 2}
+    - target: {fileID: 9500000, guid: 32368d777a641a24785e2faccca95dfd, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed by
+        Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
+        'mixamorig:LeftHandThumb2'\n\tTransform 'mixamorig:LeftHandIndex1'\n\tTransform
+        'mixamorig:LeftHandPinky2'\n\tTransform 'mixamorig:RightHandRing2'\n\tTransform
+        'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:RightArm'\n\tTransform
+        'mixamorig:LeftLeg'\n\tand more ...\n\tFrom animation clip 'mixamo.com'\n\tFrom
+        animation clip 'mixamo.com'"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 32368d777a641a24785e2faccca95dfd, type: 3}
   m_IsPrefabParent: 0
@@ -412,12 +442,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1166480891}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.01, z: -10}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.4300001, z: -4.76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_Father: {fileID: 1801394720}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1421413681
 GameObject:
@@ -504,7 +534,7 @@ Transform:
   - {fileID: 985762825}
   - {fileID: 585996505}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1801394719
 GameObject:
@@ -533,8 +563,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 519360625}
+  - {fileID: 1166480895}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1801394721
 MonoBehaviour:
@@ -555,6 +586,12 @@ MonoBehaviour:
   climbSpeed: 3
   rotateSpeed: 5
   inAngleDistance: 1
+  baseIKsnapshot:
+    rh: {x: 0.5, y: 1.5, z: 0}
+    lh: {x: -0.5, y: 1.5, z: 0}
+    rf: {x: 0.5, y: -0.2, z: 0}
+    lf: {x: -0.5, y: -0.2, z: 0}
+  aHook: {fileID: 519360626}
 --- !u!1 &1930432056
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,5 +655,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}

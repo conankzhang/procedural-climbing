@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DynamicClimbing
+namespace ProceduralClimbing
 {
     public class FreeClimb : MonoBehaviour {
         public Animator anim;
@@ -23,6 +23,10 @@ namespace DynamicClimbing
         public float rotateSpeed = 5;
         public float inAngleDistance = 1;
 
+        public IKSnapshot baseIKsnapshot;
+
+        public FreeClimbAnimHook aHook;
+
         Transform helper;
 
         // Use this for initialization
@@ -40,6 +44,7 @@ namespace DynamicClimbing
         {
             helper = new GameObject().transform;
             helper.name = "Climb Helper";
+            aHook.Init(this, helper);
             CheckForClimb();
         }
 
@@ -72,6 +77,7 @@ namespace DynamicClimbing
                 startPos = transform.position;
                 //Vector3 tp = helper.position - transform.position;
                 targetPos = helper.position;
+                aHook.CreatePositions(targetPos);
             }
             else
             {
@@ -164,7 +170,7 @@ namespace DynamicClimbing
                 t = 1;
                 inPosition = true;
 
-                //enable ik
+                aHook.CreatePositions(targetPos);
             }
 
             Vector3 tp = Vector3.Lerp(startPos, targetPos, t);
@@ -180,5 +186,11 @@ namespace DynamicClimbing
             return target + offset;
         }
 
+    }
+
+    [System.Serializable]
+    public class IKSnapshot
+    {
+        public Vector3 rh, lh, rf, lf;
     }
 }
