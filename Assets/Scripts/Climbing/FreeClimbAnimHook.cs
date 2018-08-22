@@ -19,6 +19,8 @@ namespace ProceduralClimbing
         Vector3 rh, lh, rf, lf;
         Transform helper;   
 
+        public float wallOffset = 0f;
+
         public void Init(FreeClimb c, Transform helper)
         {
             anim = c.anim;
@@ -45,10 +47,14 @@ namespace ProceduralClimbing
         public IKSnapshot CreateSnapShot(Vector3 origin)
         {
             IKSnapshot r = new IKSnapshot();
-            r.lh = LocalToWorld(ikBase.lh);
-            r.rh = LocalToWorld(ikBase.rh);
-            r.lf = LocalToWorld(ikBase.lf);
-            r.rf = LocalToWorld(ikBase.rf);
+            Vector3 _lh = LocalToWorld(ikBase.lh);
+            r.lh = GetPosActual(_lh);
+            Vector3 _rh = LocalToWorld(ikBase.rh);
+            r.rh = GetPosActual(_rh);
+            Vector3 _lf = LocalToWorld(ikBase.lf);
+            r.lf = GetPosActual(_lf);
+            Vector3 _rf = LocalToWorld(ikBase.rf);
+            r.rf = GetPosActual(_rf);
             return r;
         }
 
@@ -59,6 +65,26 @@ namespace ProceduralClimbing
             r += helper.forward * position.z;
             r += helper.up * position.y;
             return r;
+        }
+
+        Vector3 GetPosActual(Vector3 o)
+        {
+            Vector3 returnPos = o;
+            Vector3 origin = o;
+            Vector3 dir = helper.forward;
+
+            origin += -(dir * 0.2f);
+            RaycastHit hit;
+
+            if(Physics.Raycast(origin, dir, out hit, 1.5f))
+            {
+                Vector3 _r = hit.point + (hit.normal * wallOffset);
+                returnPos = _r;
+
+
+            }
+
+            return returnPos;
         }
         
         public void CopySnapshot(ref IKSnapshot to, IKSnapshot from)
