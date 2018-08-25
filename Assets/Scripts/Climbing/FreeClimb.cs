@@ -7,6 +7,7 @@ namespace ProceduralClimbing
     public class FreeClimb : MonoBehaviour {
         public Animator anim;
         public bool isClimbing;
+        public bool isMid;
 
         bool inPosition;
         bool isLerping;
@@ -66,17 +67,34 @@ namespace ProceduralClimbing
                 Vector3 v = helper.up * vert;
                 Vector3 moveDir = (h + v).normalized;
 
-                bool canMove = CanMove(moveDir);
-                if (!canMove || moveDir == Vector3.zero)
+                if(isMid)
                 {
-                    return;
+                    if(moveDir == Vector3.zero)
+                    {
+                        return;
+                    }
                 }
+                else
+                {
+                    bool canMove = CanMove(moveDir);
+                    if (!canMove || moveDir == Vector3.zero)
+                    {
+                        return;
+                    }
+                }
+
+                isMid = !isMid;
+
 
                 t = 0;
                 isLerping = true;
                 startPos = transform.position;
-                //Vector3 tp = helper.position - transform.position;
-                targetPos = helper.position;
+                Vector3 tp = helper.position - transform.position;
+                float distance = Vector3.Distance(helper.position, startPos) / 2;
+                tp *= positionOffset;
+                tp += transform.position;
+                targetPos = isMid ? tp : helper.position;
+
                 aHook.CreatePositions(targetPos);
             }
             else
