@@ -141,7 +141,8 @@ namespace ProceduralClimbing
             Vector3 origin = transform.position;
             float dis = positionOffset;
             Vector3 dir = moveDir;
-            Debug.DrawRay(origin, dir * dis);
+            DebugLine.singleton.SetLine(origin, origin + (dir * dis), 0);
+
             RaycastHit hit;
 
             if(Physics.Raycast(origin, dir, out hit, dis))
@@ -153,8 +154,9 @@ namespace ProceduralClimbing
             dir = helper.forward;
 
             float dis2 = inAngleDistance;
+            DebugLine.singleton.SetLine(origin, origin + (dir * dis2), 1);
 
-            Debug.DrawRay(origin, dir * dis2);
+
             if(Physics.Raycast(origin, dir, out hit, dis))
             {
                 helper.position = PosWithOffset(origin, hit.point);
@@ -165,7 +167,8 @@ namespace ProceduralClimbing
             origin += dir * dis2;
             dir = -Vector3.up;
 
-            Debug.DrawRay(origin, dir);
+            DebugLine.singleton.SetLine(origin, origin + dir, 2);
+
             if(Physics.Raycast(origin, dir, out hit, dis2))
             {
                 float angle = Vector3.Angle(helper.up, hit.normal);
