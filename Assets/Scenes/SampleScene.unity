@@ -581,8 +581,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 519360624}
   isClimbing: 0
-  positionOffset: 1
-  offsetFromWall: 0.5
+  positionOffset: 0.4
+  offsetFromWall: 0.35
   speedMultiplier: 0.2
   climbSpeed: 3
   rotateSpeed: 5
@@ -590,8 +590,8 @@ MonoBehaviour:
   baseIKsnapshot:
     rh: {x: 0.29, y: 1.5, z: 0}
     lh: {x: -0.32, y: 1.5, z: 0}
-    rf: {x: 0.5, y: 0.5, z: 0}
-    lf: {x: -0.5, y: 0.5, z: 0}
+    rf: {x: 0.4, y: 0.6, z: 0}
+    lf: {x: -0.4, y: 0.6, z: 0}
   aHook: {fileID: 519360626}
 --- !u!1 &1930432056
 GameObject:
