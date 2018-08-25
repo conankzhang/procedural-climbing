@@ -95,7 +95,7 @@ namespace ProceduralClimbing
                 tp += transform.position;
                 targetPos = isMid ? tp : helper.position;
 
-                aHook.CreatePositions(targetPos);
+                aHook.CreatePositions(targetPos, moveDir, isMid);
             }
             else
             {
@@ -188,7 +188,7 @@ namespace ProceduralClimbing
                 t = 1;
                 inPosition = true;
 
-                aHook.CreatePositions(targetPos);
+                aHook.CreatePositions(targetPos, Vector3.zero, false);
             }
 
             Vector3 tp = Vector3.Lerp(startPos, targetPos, t);

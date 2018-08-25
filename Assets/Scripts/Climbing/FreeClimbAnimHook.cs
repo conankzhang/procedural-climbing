@@ -17,7 +17,8 @@ namespace ProceduralClimbing
         public float weight_lf;
 
         Vector3 rh, lh, rf, lf;
-        Transform helper;   
+        Transform helper;
+        bool isMirror;
 
         public float wallOffset = 0f;
 
@@ -28,8 +29,10 @@ namespace ProceduralClimbing
             this.helper = helper; 
         }
 
-        public void CreatePositions(Vector3 origin)
+        public void CreatePositions(Vector3 origin, Vector3 moveDir, bool isMid)
         {
+            HandleAnim(moveDir, isMid);
+
             IKSnapshot ik = CreateSnapShot(origin);
             CopySnapshot(ref current, ik);
 
@@ -42,6 +45,33 @@ namespace ProceduralClimbing
             UpdateIKWeight(AvatarIKGoal.RightHand, 1);
             UpdateIKWeight(AvatarIKGoal.LeftFoot, 1);
             UpdateIKWeight(AvatarIKGoal.RightFoot, 1);
+        }
+
+        void HandleAnim(Vector3 moveDir, bool isMid)
+        {
+            if(isMid)
+            {
+                if(moveDir.y != 0)
+                {
+                    if(moveDir.y < 0)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+
+                    isMirror = !isMirror;
+                    anim.SetBool("mirror", isMirror);
+
+                    anim.CrossFade("Climb Up", 0.2f);
+                }
+            }
+            else
+            {
+                anim.CrossFade("Hanging Idle", 0.2f);
+            }
         }
 
         public IKSnapshot CreateSnapShot(Vector3 origin)
