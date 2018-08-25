@@ -141,7 +141,8 @@ MonoBehaviour:
   weight_lh: 0
   weight_rf: 0
   weight_lf: 0
-  wallOffset: 0
+  lerpSpeed: 5
+  wallOffset: 0.1
 --- !u!1 &585996504
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,15 +582,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 519360624}
   isClimbing: 0
-  positionOffset: 0.4
+  isMid: 0
+  positionOffset: 1
   offsetFromWall: 0.35
   speedMultiplier: 0.2
   climbSpeed: 3
   rotateSpeed: 5
   inAngleDistance: 1
   baseIKsnapshot:
-    rh: {x: 0.29, y: 1.5, z: 0}
-    lh: {x: -0.32, y: 1.5, z: 0}
+    rh: {x: 0.1, y: 1.75, z: 0}
+    lh: {x: -0.1, y: 1.75, z: 0}
     rf: {x: 0.4, y: 0.6, z: 0}
     lf: {x: -0.4, y: 0.6, z: 0}
   aHook: {fileID: 519360626}

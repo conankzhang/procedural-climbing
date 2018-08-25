@@ -68,10 +68,28 @@ namespace ProceduralClimbing
         {
             isLeft = moveDir.x <= 0;
 
-            goals.lh = isLeft;
-            goals.rh = !isLeft;
-            goals.lf = isLeft;
-            goals.rf = !isLeft;
+            if(moveDir.x != 0)
+            {
+                goals.lh = isLeft;
+                goals.rh = !isLeft;
+                goals.lf = isLeft;
+                goals.rf = !isLeft;
+            }
+            else
+            {
+                bool isEnabled = isMirror;
+
+                if(moveDir.y < 0)
+                {
+                    isEnabled = !isEnabled;
+                }
+
+                goals.lh = isEnabled;
+                goals.rh = !isEnabled;
+                goals.lf = isEnabled;
+                goals.rf = !isEnabled;
+
+            }
         }
 
         void HandleAnim(Vector3 moveDir, bool isMid)
