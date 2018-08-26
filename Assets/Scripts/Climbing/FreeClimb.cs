@@ -37,7 +37,7 @@ namespace ProceduralClimbing
         }
         
         // Update is called once per frame
-        void Update () {
+        public void Tick() {
             delta = Time.deltaTime;
             Tick(delta);
         }
@@ -47,7 +47,6 @@ namespace ProceduralClimbing
             helper = new GameObject().transform;
             helper.name = "Climb Helper";
             aHook.Init(this, helper);
-            CheckForClimb();
         }
 
         public void Tick(float delta)

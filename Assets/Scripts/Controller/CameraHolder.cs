@@ -9,7 +9,13 @@ namespace ProceduralClimbing
         public Transform target;
         public float speed = 9;
 
-        
+        public static CameraHolder singleton;
+
+        private void Awake()
+        {
+            singleton = this;
+        }
+
         // Update is called once per frame
         void FixedUpdate () {
            if(target == null)
