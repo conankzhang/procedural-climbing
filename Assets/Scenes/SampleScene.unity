@@ -369,7 +369,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 32368d777a641a24785e2faccca95dfd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.92
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 32368d777a641a24785e2faccca95dfd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -645,7 +645,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1801394719}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.05, y: 1.42, z: -5.24}
+  m_LocalPosition: {x: -0.05, y: 0.5, z: -5.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 519360625}
@@ -692,6 +692,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 4
   rotateSpeed: 9
+  jumpSpeed: 5
 --- !u!136 &1801394723
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -704,7 +705,7 @@ CapsuleCollider:
   m_Radius: 0.3
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &1801394724
 Rigidbody:
   m_ObjectHideFlags: 0

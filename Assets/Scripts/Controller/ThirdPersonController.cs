@@ -21,6 +21,11 @@ namespace ProceduralClimbing
 
         public float moveSpeed = 4;
         public float rotateSpeed = 9;
+        public float jumpSpeed = 15;
+
+        bool onGround;
+        bool keepOfGround;
+        float savedTime;
 
         // Use this for initialization
         void Start () {
@@ -36,11 +41,34 @@ namespace ProceduralClimbing
         
         // Update is called once per frame
         void Update () {
+            onGround = OnGround();
+
+            if(keepOfGround)
+            {
+                if(Time.realtimeSinceStartup - savedTime > 0.5f)
+                {
+                    keepOfGround = false;
+                }
+            }
             anim.SetFloat("move", moveAmount);
+
+            if(onGround)
+            {
+                bool jump = Input.GetButtonUp("Jump");
+                if(jump)
+                {
+                    Vector3 v = rigid.velocity;
+                    v.y = jumpSpeed;
+                    rigid.velocity = v;
+                    savedTime = Time.realtimeSinceStartup;
+                    keepOfGround = true;
+                }
+            }
         }
 
         void FixedUpdate ()
         {
+            onGround = OnGround(); 
             Movement();
         }
 
@@ -70,7 +98,27 @@ namespace ProceduralClimbing
             transform.rotation = targetRot;
 
             Vector3 dir = transform.forward * (moveSpeed * moveAmount);
+            dir.y = rigid.velocity.y;
             rigid.velocity = dir;
+        }
+
+        bool OnGround()
+        {
+            if(keepOfGround)
+            {
+                return false;
+            }
+            Vector3 origin = transform.position;
+            origin.y += 0.4f;
+            Vector3 direction = -transform.up;
+
+            RaycastHit hit;
+            if(Physics.Raycast(origin, direction, out hit, 0.41f))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
