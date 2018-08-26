@@ -24,7 +24,7 @@ namespace ProceduralClimbing
         public float jumpSpeed = 15;
 
         bool onGround;
-        bool keepOfGround;
+        bool keepOffGround;
         float savedTime;
 
         // Use this for initialization
@@ -40,28 +40,37 @@ namespace ProceduralClimbing
         }
         
         // Update is called once per frame
-        void Update () {
+        void Update ()
+        {
             onGround = OnGround();
 
-            if(keepOfGround)
+            if (keepOffGround)
             {
-                if(Time.realtimeSinceStartup - savedTime > 0.5f)
+                if (Time.realtimeSinceStartup - savedTime > 0.5f)
                 {
-                    keepOfGround = false;
+                    keepOffGround = false;
                 }
             }
-            anim.SetFloat("move", moveAmount);
 
-            if(onGround)
+            Jump();
+
+            anim.SetFloat("move", moveAmount);
+            anim.SetBool("inAir", !onGround);
+
+        }
+
+        private void Jump()
+        {
+            if (onGround)
             {
                 bool jump = Input.GetButtonUp("Jump");
-                if(jump)
+                if (jump)
                 {
                     Vector3 v = rigid.velocity;
                     v.y = jumpSpeed;
                     rigid.velocity = v;
                     savedTime = Time.realtimeSinceStartup;
-                    keepOfGround = true;
+                    keepOffGround = true;
                 }
             }
         }
@@ -104,7 +113,7 @@ namespace ProceduralClimbing
 
         bool OnGround()
         {
-            if(keepOfGround)
+            if(keepOffGround)
             {
                 return false;
             }
