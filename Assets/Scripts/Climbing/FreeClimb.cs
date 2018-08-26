@@ -66,6 +66,13 @@ namespace ProceduralClimbing
 
             if(!isLerping)
             {
+                bool cancel = Input.GetButtonDown("Jump");
+                if(cancel)
+                {
+                    CancelClimb();
+                    return;
+                }
+
                 float hor = Input.GetAxis("Horizontal");
                 float vert = Input.GetAxis("Vertical");
                 float m = Mathf.Abs(hor) + Mathf.Abs(vert);
@@ -236,18 +243,21 @@ namespace ProceduralClimbing
         void LookForGround()
         {
             Vector3 origin = transform.position;
-            Vector3 direction = -Vector3.up;
+            Vector3 direction = -transform.up;
             RaycastHit hit;
 
-            if(Physics.Raycast(origin, direction, out hit, 1.2f, ignoreLayers))
+            if(Physics.Raycast(origin, direction, out hit, distanceToMoveDirection + 0.05f, ignoreLayers))
             {
-                isClimbing = false;
-                tpc.EnableController();
-                tpc.isClimbing = false;
-                aHook.enabled = false;
+                CancelClimb();
             }
         }
 
+        private void CancelClimb()
+        {
+            isClimbing = false;
+            tpc.EnableController();
+            aHook.enabled = false;
+        }
     }
 
     [System.Serializable]

@@ -96,7 +96,7 @@ namespace ProceduralClimbing
         {
             if (onGround)
             {
-                bool jump = Input.GetButtonUp("Jump");
+                bool jump = Input.GetButtonDown("Jump");
                 if (jump)
                 {
                     Vector3 v = rigid.velocity;
