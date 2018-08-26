@@ -17,12 +17,13 @@ namespace ProceduralClimbing
         Vector3 targetPos;
         Quaternion startRot;
         Quaternion targetRot;
-        public float positionOffset;
+        public float positionOffset = 1.0f;
         public float offsetFromWall = 0.3f;
         public float speedMultiplier = 0.2f;
         public float climbSpeed = 3;
         public float rotateSpeed = 5;
-        public float inAngleDistance = 1;
+        public float distanceToWall = 1;
+        public float distanceToMoveDirection = 1.0f;
 
         public IKSnapshot baseIKsnapshot;
 
@@ -139,24 +140,25 @@ namespace ProceduralClimbing
         bool CanMove(Vector3 moveDir)
         {
             Vector3 origin = transform.position;
-            float dis = positionOffset;
+            float dis = distanceToMoveDirection;
             Vector3 dir = moveDir;
             DebugLine.singleton.SetLine(origin, origin + (dir * dis), 0);
 
+            // Raycast desired direction
             RaycastHit hit;
-
             if(Physics.Raycast(origin, dir, out hit, dis))
             {
+                // Check if corner
                 return false;
             }
 
             origin += moveDir * dis;
             dir = helper.forward;
 
-            float dis2 = inAngleDistance;
+            float dis2 = distanceToWall;
             DebugLine.singleton.SetLine(origin, origin + (dir * dis2), 1);
 
-
+            // Raycast towards wall
             if(Physics.Raycast(origin, dir, out hit, dis))
             {
                 helper.position = PosWithOffset(origin, hit.point);

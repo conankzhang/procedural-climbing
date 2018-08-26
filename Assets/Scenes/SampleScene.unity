@@ -666,12 +666,13 @@ MonoBehaviour:
   anim: {fileID: 519360624}
   isClimbing: 0
   isMid: 0
-  positionOffset: 1
+  positionOffset: 0.75
   offsetFromWall: 0.35
   speedMultiplier: 0.2
   climbSpeed: 3
   rotateSpeed: 5
-  inAngleDistance: 1
+  distanceToWall: 1.2
+  distanceToMoveDirection: 0.75
   baseIKsnapshot:
     rh: {x: 0.1, y: 1, z: 0}
     lh: {x: -0.1, y: 1, z: 0}
