@@ -26,6 +26,9 @@ namespace ProceduralClimbing
         bool onGround;
         bool keepOffGround;
         float savedTime;
+        public bool isClimbing;
+
+        FreeClimb freeClimb;
 
         // Use this for initialization
         void Start () {
@@ -37,11 +40,17 @@ namespace ProceduralClimbing
 
             camHolder = CameraHolder.singleton.transform;
             anim = GetComponentInChildren<Animator>();
+            freeClimb = GetComponent<FreeClimb>();
         }
         
         // Update is called once per frame
         void Update ()
         {
+            if(isClimbing)
+            {
+                freeClimb.Tick(Time.deltaTime);
+                return;
+            }
             onGround = OnGround();
 
             if (keepOffGround)
@@ -53,6 +62,16 @@ namespace ProceduralClimbing
             }
 
             Jump();
+
+            if(!onGround && !keepOffGround)
+            {
+                isClimbing = freeClimb.CheckForClimb();
+
+                if(isClimbing)
+                {
+                    DisableController();
+                }
+            }
 
             anim.SetFloat("move", moveAmount);
             anim.SetBool("inAir", !onGround);
@@ -77,6 +96,10 @@ namespace ProceduralClimbing
 
         void FixedUpdate ()
         {
+            if(isClimbing)
+            {
+                return;
+            }
             onGround = OnGround(); 
             Movement();
         }
@@ -128,6 +151,17 @@ namespace ProceduralClimbing
             }
 
             return false;
+        }
+
+        public void DisableController()
+        {
+            rigid.isKinematic = true;
+            col.enabled = false;
+        }
+
+        public void EnableController()
+        {
+
         }
     }
 }

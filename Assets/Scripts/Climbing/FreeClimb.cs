@@ -31,6 +31,8 @@ namespace ProceduralClimbing
 
         Transform helper;
 
+        LayerMask ignoreLayers;
+
         // Use this for initialization
         void Start () {
             Init();
@@ -47,10 +49,12 @@ namespace ProceduralClimbing
             helper = new GameObject().transform;
             helper.name = "Climb Helper";
             aHook.Init(this, helper);
+            ignoreLayers = ~(1 << 9);
         }
 
-        public void Tick(float delta)
+        public void Tick(float deltaTime)
         {
+            this.delta = deltaTime;
             if(!inPosition)
             {
                 GetInPosition();
@@ -112,17 +116,20 @@ namespace ProceduralClimbing
             }
         }
 
-        public void CheckForClimb()
+        public bool CheckForClimb()
         {
             Vector3 origin = transform.position;
-            origin.y += 1.4f;
+            origin.y += 0.02f;
             Vector3 dir = transform.forward;
             RaycastHit hit;
-            if(Physics.Raycast(origin, dir, out hit, 5))
+            if(Physics.Raycast(origin, dir, out hit, 0.5f, ignoreLayers))
             {
                 helper.position = PosWithOffset(origin, hit.point);
                 InitForClimb(hit);
+                return true;
             }
+
+            return false;
         }
 
         void InitForClimb(RaycastHit hit)
@@ -197,13 +204,13 @@ namespace ProceduralClimbing
         }
         void GetInPosition()
         {
-            t += delta;
+            // transition time
+            t += delta * 10;
 
             if(t > 1)
             {
                 t = 1;
                 inPosition = true;
-
                 aHook.CreatePositions(targetPos, Vector3.zero, false);
             }
 
