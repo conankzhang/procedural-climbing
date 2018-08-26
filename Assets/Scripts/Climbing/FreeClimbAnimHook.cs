@@ -40,9 +40,6 @@ namespace ProceduralClimbing
             delta = Time.deltaTime;
             HandleAnim(moveDir, isMid);
 
-            IKSnapshot ik = CreateSnapShot(origin);
-            CopySnapshot(ref current, ik);
-
             if(!isMid)
             {
                 UpdateGoals(moveDir);
@@ -52,6 +49,9 @@ namespace ProceduralClimbing
             {
                 UpdateGoals(prevMovDir);
             }
+
+            IKSnapshot ik = CreateSnapShot(origin);
+            CopySnapshot(ref current, ik);
 
             SetIKPosition(isMid, goals.lh, current.lh, AvatarIKGoal.LeftHand);
             SetIKPosition(isMid, goals.rh, current.rh, AvatarIKGoal.RightHand);
@@ -130,13 +130,13 @@ namespace ProceduralClimbing
         {
             IKSnapshot r = new IKSnapshot();
             Vector3 _lh = LocalToWorld(ikBase.lh);
-            r.lh = GetPosActual(_lh);
+            r.lh = GetPosActual(_lh, AvatarIKGoal.LeftHand);
             Vector3 _rh = LocalToWorld(ikBase.rh);
-            r.rh = GetPosActual(_rh);
+            r.rh = GetPosActual(_rh, AvatarIKGoal.RightHand);
             Vector3 _lf = LocalToWorld(ikBase.lf);
-            r.lf = GetPosActual(_lf);
+            r.lf = GetPosActual(_lf, AvatarIKGoal.LeftFoot);
             Vector3 _rf = LocalToWorld(ikBase.rf);
-            r.rf = GetPosActual(_rf);
+            r.rf = GetPosActual(_rf, AvatarIKGoal.RightFoot);
             return r;
         }
 
@@ -149,7 +149,7 @@ namespace ProceduralClimbing
             return r;
         }
 
-        Vector3 GetPosActual(Vector3 o)
+        Vector3 GetPosActual(Vector3 o, AvatarIKGoal goal)
         {
             Vector3 returnPos = o;
             Vector3 origin = o;
@@ -158,12 +158,42 @@ namespace ProceduralClimbing
             origin += -(dir * 0.2f);
             RaycastHit hit;
 
+            bool isHit = false;
             if(Physics.Raycast(origin, dir, out hit, 1.5f))
             {
                 Vector3 _r = hit.point + (hit.normal * wallOffset);
                 returnPos = _r;
+                isHit = true;
 
+                if(goal == AvatarIKGoal.LeftFoot || goal == AvatarIKGoal.RightFoot)
+                {
+                    // Leg is higher than hip
+                    if(hit.point.y > transform.position.y)
+                    {
+                        isHit = false;
+                    }
+                }
+            }
 
+            if(!isHit)
+            {
+                switch (goal)
+                {
+                    case AvatarIKGoal.LeftFoot:
+                        returnPos = LocalToWorld(ikBase.lf);
+                        break;
+                    case AvatarIKGoal.RightFoot:
+                        returnPos = LocalToWorld(ikBase.rf);
+                        break;
+                    case AvatarIKGoal.LeftHand:
+                        returnPos = LocalToWorld(ikBase.lh);
+                        break;
+                    case AvatarIKGoal.RightHand:
+                        returnPos = LocalToWorld(ikBase.rh);
+                        break;
+                    default:
+                        break;
+                }
             }
 
             return returnPos;
@@ -181,17 +211,27 @@ namespace ProceduralClimbing
         {
             if(isMid)
             {
+                Vector3 p = GetPosActual(pos, goal);
                 if(isTrue)
                 {
-                    Vector3 p = GetPosActual(pos);
                     UpdateIKPosition(goal, p);
+                }
+                else
+                {
+                    if(goal == AvatarIKGoal.LeftFoot || goal == AvatarIKGoal.RightFoot)
+                    {
+                        if(p.y > transform.position.y - 0.05f)
+                        {
+                            //UpdateIKPosition(goal, p);
+                        }
+                    }
                 }
             }
             else
             {
                 if(!isTrue)
                 {
-                    Vector3 p = GetPosActual(pos);
+                    Vector3 p = GetPosActual(pos, goal);
                     UpdateIKPosition(goal, p);
                 }
             }
