@@ -39,7 +39,13 @@ namespace ProceduralClimbing
             anim.SetFloat("move", moveAmount);
         }
 
-        void FixedUpdate () {
+        void FixedUpdate ()
+        {
+            Movement();
+        }
+
+        private void Movement()
+        {
             horizontal = Input.GetAxis("Horizontal");
             vertical = Input.GetAxis("Vertical");
 
@@ -54,7 +60,7 @@ namespace ProceduralClimbing
 
             Vector3 targetDir = moveDirection;
             targetDir.y = 0;
-            if(targetDir == Vector3.zero)
+            if (targetDir == Vector3.zero)
             {
                 targetDir = transform.forward;
             }
