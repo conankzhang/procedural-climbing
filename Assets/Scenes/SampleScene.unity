@@ -142,7 +142,7 @@ MonoBehaviour:
   weight_rf: 0
   weight_lf: 0
   lerpSpeed: 5
-  wallOffset: 0.1
+  wallOffset: 0.35
 --- !u!1 &585996504
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,7 +369,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 32368d777a641a24785e2faccca95dfd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.92
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 32368d777a641a24785e2faccca95dfd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -413,6 +413,47 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 32368d777a641a24785e2faccca95dfd, type: 3}
   m_IsPrefabParent: 0
+--- !u!1 &1153744789
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1153744791}
+  - component: {fileID: 1153744790}
+  m_Layer: 0
+  m_Name: Debug
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1153744790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1153744789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b72abb1ecb059418947760e3dbbc08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxRenderers: 0
+--- !u!4 &1153744791
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1153744789}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.22327805, y: 0.9424119, z: -5.618771}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1166480891
 GameObject:
   m_ObjectHideFlags: 0
@@ -604,7 +645,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1801394719}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.58, z: -5.24}
+  m_LocalPosition: {x: -0.05, y: 1.42, z: -5.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 519360625}
@@ -632,10 +673,10 @@ MonoBehaviour:
   rotateSpeed: 5
   inAngleDistance: 1
   baseIKsnapshot:
-    rh: {x: 0.1, y: 1.75, z: 0}
-    lh: {x: -0.1, y: 1.75, z: 0}
-    rf: {x: 0.4, y: 0.6, z: 0}
-    lf: {x: -0.4, y: 0.6, z: 0}
+    rh: {x: 0.1, y: 1, z: 0}
+    lh: {x: -0.1, y: 1, z: 0}
+    rf: {x: 0.2, y: -0.2, z: 0}
+    lf: {x: -0.2, y: -0.2, z: 0}
   aHook: {fileID: 519360626}
 --- !u!1 &1930432056
 GameObject:

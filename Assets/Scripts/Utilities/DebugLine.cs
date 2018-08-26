@@ -25,7 +25,7 @@ namespace ProceduralClimbing
         {
             GameObject go = new GameObject();
             lines.Add(go.AddComponent<LineRenderer>());
-            lines[i].widthMultiplier = 0.2f;         
+            lines[i].widthMultiplier = 0.05f;         
         }
 
         public void SetLine(Vector3 startPos, Vector3 endPos, int index)
