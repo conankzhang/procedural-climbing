@@ -166,6 +166,18 @@ namespace ProceduralClimbing
                 return true;
             }
 
+            origin = origin + (dir * dis2);
+            dir = -moveDir;
+
+            DebugLine.singleton.SetLine(origin, origin + dir, 1);
+            // Raycast for inside corners
+            if(Physics.Raycast(origin, dir, out hit, distanceToWall))
+            {
+                helper.position = PosWithOffset(origin, hit.point);
+                helper.rotation = Quaternion.LookRotation(-hit.normal);
+                return true;
+            }
+
             origin += dir * dis2;
             dir = -Vector3.up;
 
@@ -173,7 +185,7 @@ namespace ProceduralClimbing
 
             if(Physics.Raycast(origin, dir, out hit, dis2))
             {
-                float angle = Vector3.Angle(helper.up, hit.normal);
+                float angle = Vector3.Angle(-helper.forward, hit.normal);
                 if(angle < 40)
                 {
                     helper.position = PosWithOffset(origin, hit.point);

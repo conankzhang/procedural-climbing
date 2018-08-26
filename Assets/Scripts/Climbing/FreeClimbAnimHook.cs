@@ -98,17 +98,24 @@ namespace ProceduralClimbing
             {
                 if(moveDir.y != 0)
                 {
-                    if(moveDir.y < 0)
+                    if(moveDir.x == 0)
                     {
-
+                        isMirror = !isMirror;
+                        anim.SetBool("mirror", isMirror);
                     }
                     else
                     {
-
+                        if(moveDir.y < 0)
+                        {
+                            isMirror = (moveDir.x > 0);
+                            anim.SetBool("mirror", isMirror);
+                        }
+                        else
+                        {
+                            isMirror = (moveDir.x < 0);
+                            anim.SetBool("mirror", isMirror);
+                        }
                     }
-
-                    isMirror = !isMirror;
-                    anim.SetBool("mirror", isMirror);
 
                     anim.CrossFade("Climb Up", 0.2f);
                 }
