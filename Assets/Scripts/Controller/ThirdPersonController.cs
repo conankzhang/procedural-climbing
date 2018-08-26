@@ -27,6 +27,8 @@ namespace ProceduralClimbing
         bool keepOffGround;
         float savedTime;
         public bool isClimbing;
+        bool climbOff;
+        float climbTimer;
 
         FreeClimb freeClimb;
 
@@ -65,11 +67,23 @@ namespace ProceduralClimbing
 
             if(!onGround && !keepOffGround)
             {
-                isClimbing = freeClimb.CheckForClimb();
-
-                if(isClimbing)
+                if(!climbOff)
                 {
-                    DisableController();
+
+                    isClimbing = freeClimb.CheckForClimb();
+
+                    if(isClimbing)
+                    {
+                        DisableController();
+                    }
+                }
+            }
+
+            if(climbOff)
+            {
+                if(Time.realtimeSinceStartup - climbTimer > 1)
+                {
+                    climbOff = false;
                 }
             }
 
@@ -161,7 +175,12 @@ namespace ProceduralClimbing
 
         public void EnableController()
         {
-
+            rigid.isKinematic = false;
+            col.enabled = true;
+            isClimbing = false;
+            anim.CrossFade("Jump", 0.2f);
+            climbOff = true;
+            climbTimer = Time.realtimeSinceStartup;
         }
     }
 }

@@ -33,8 +33,11 @@ namespace ProceduralClimbing
 
         LayerMask ignoreLayers;
 
+        ThirdPersonController tpc;
+
         // Use this for initialization
         void Start () {
+            tpc = GetComponent<ThirdPersonController>();
             Init();
         }
         
@@ -113,6 +116,8 @@ namespace ProceduralClimbing
                 Vector3 cp = Vector3.Lerp(startPos, targetPos, t);
                 transform.position = cp;
                 transform.rotation = Quaternion.Slerp(transform.rotation, helper.rotation, delta * rotateSpeed);
+
+                LookForGround();
             }
         }
 
@@ -135,6 +140,7 @@ namespace ProceduralClimbing
         void InitForClimb(RaycastHit hit)
         {
             isClimbing = true;
+            aHook.enabled = true;
             helper.transform.rotation = Quaternion.LookRotation(-hit.normal);
             startPos = transform.position;
             targetPos = hit.point + (hit.normal * offsetFromWall);
@@ -225,6 +231,21 @@ namespace ProceduralClimbing
             direction.Normalize();
             Vector3 offset = direction * offsetFromWall;
             return target + offset;
+        }
+
+        void LookForGround()
+        {
+            Vector3 origin = transform.position;
+            Vector3 direction = -Vector3.up;
+            RaycastHit hit;
+
+            if(Physics.Raycast(origin, direction, out hit, 1.2f, ignoreLayers))
+            {
+                isClimbing = false;
+                tpc.EnableController();
+                tpc.isClimbing = false;
+                aHook.enabled = false;
+            }
         }
 
     }
